@@ -1,0 +1,16 @@
+# Backend Framework
+fastapi==0.110.0
+uvicorn[standard]==0.29.0
+
+# Database and ORM
+psycopg2-binary==2.9.9
+sqlalchemy==2.0.29
+
+# For environment variables (optional but useful)
+python-dotenv==1.0.1
+
+# For password hashing
+passlib[bcrypt]==1.7.4
+
+# For CORS handling (if frontend is served separately)
+fastapi[all]
