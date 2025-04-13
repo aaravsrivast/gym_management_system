@@ -48,3 +48,37 @@ CREATE TABLE users (
     last_login TIMESTAMP,
     last_active TIMESTAMP
 );
+
+flutter_app/
+├── android/
+├── ios/
+├── lib/
+│   ├── main.dart                     # Entry point
+│   ├── screens/
+│   │   ├── login.dart                # ✅ Login screen
+│   │   ├── admin/
+│   │   │   ├── dashboard.dart
+│   │   │   ├── user_details.dart
+│   │   │   ├── trainer_details.dart
+│   │   │   └── assigner.dart
+│   │   ├── trainer/
+│   │   │   ├── dashboard.dart
+│   │   │   ├── schedule.dart
+│   │   │   └── profile.dart
+│   │   ├── member/
+│   │   │   ├── dashboard.dart
+│   │   │   ├── profile.dart
+│   │   │   ├── locations.dart
+│   │   │   ├── offers.dart
+│   │   │   ├── schedule.dart
+│   │   │   └── plan.dart
+│   ├── services/
+│   │   └── api_service.dart          # (Optional) Central API logic
+│   ├── utils/
+│   │   ├── storage.dart              # ✅ Secure local storage
+│   │   └── auth_guard.dart           # (Optional) Role-based route protection
+│   └── widgets/
+│       ├── role_navbar.dart          # Bottom/side navigation per role
+│       └── logout_button.dart        # Common logout button
+├── pubspec.yaml
+└── README.md
