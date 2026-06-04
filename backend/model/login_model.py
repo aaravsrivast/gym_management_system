@@ -1,6 +1,9 @@
-from sqlalchemy import text
 from datetime import datetime
+
+from sqlalchemy import text
+
 from backend.utils.auth import create_access_token
+from backend.utils.security import verify_password
 
 class LoginModel:
     def login_user(self, email: str, password: str, db):
@@ -14,7 +17,7 @@ class LoginModel:
             result = db.execute(query, {"email": email}).fetchone()
 
             # Step 2: Credential + allowed login check
-            if not result or result.password != password:
+            if not result or not verify_password(password, result.password):
                 return {
                     "message": "Invalid email or password",
                     "token": None,

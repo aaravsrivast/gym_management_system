@@ -1,41 +1,50 @@
+from contextlib import asynccontextmanager
+
+import uvicorn
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-import uvicorn
 
-from backend.utils.database import Base, engine
+from backend.config import get_settings
 from backend.routes.login_routes import router as login_router
 from backend.routes.logout_routes import router as logout_router
-# 🔁 Add more routes here as needed
-# from backend.routes.trainer_routes import router as trainer_router
-# from backend.routes.member_routes import router as member_router
+from backend.utils.database import Base, engine
 
-app = FastAPI()
+settings = get_settings()
 
-# CORS setup
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    Base.metadata.create_all(bind=engine)
+    yield
+
+
+app = FastAPI(
+    title="Gym Management System",
+    version="1.0.0",
+    lifespan=lifespan,
+)
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:8081", "http://127.0.0.1:8000"],
+    allow_origins=settings.cors_origins,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
-# DB table creation
-@app.on_event("startup")
-def startup_event():
-    Base.metadata.create_all(bind=engine)
-
-# Include routers
 app.include_router(login_router)
 app.include_router(logout_router)
-# app.include_router(trainer_router)
-# app.include_router(member_router)
 
-# Health check route
+
 @app.get("/")
 async def root():
     return {"message": "Welcome to Gym Management System Backend"}
 
-# Run using: python main.py
-if __name__ == '__main__':
-    uvicorn.run("main:app", host="0.0.0.0", port=8000, reload=True)
+
+if __name__ == "__main__":
+    uvicorn.run(
+        "backend.main:app",
+        host="0.0.0.0",
+        port=8000,
+        reload=True,
+    )

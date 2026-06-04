@@ -35,7 +35,7 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
   
-    fetch("http://127.0.0.1:8000/auth/logout", {
+    fetch(`${GYM_API_BASE}/auth/logout`, {
       method: "POST",
       headers: {
         "Authorization": `Bearer ${token}`,

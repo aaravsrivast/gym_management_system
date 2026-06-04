@@ -1,8 +1,13 @@
 from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker, declarative_base
+from sqlalchemy.orm import DeclarativeBase, sessionmaker
 
-DATABASE_URL = "postgresql://postgres:aarav%4024K@localhost:5432/gym_db"
+from backend.config import get_settings
 
-engine = create_engine(DATABASE_URL)
+settings = get_settings()
+
+engine = create_engine(settings.database_url, pool_pre_ping=True)
 SessionLocal = sessionmaker(bind=engine, autocommit=False, autoflush=False)
-Base = declarative_base()
+
+
+class Base(DeclarativeBase):
+    pass
